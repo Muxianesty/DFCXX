@@ -1,25 +1,24 @@
 #include "dfcxx/kernel.h"
 
-#include <fstream>
 #include <iostream>
-
+#include <fstream>
+#include "dfcxx/builders/builder.h"
+#include "dfcxx/converter.h"
 namespace dfcxx {
 
-    mlir::ModuleOp Kernel::_compile() {
-        DFCIRBuilder builder;
-        return nullptr;
+    void Kernel::compile(const DFCXXLatencyConfig &config) {
+        DFCIRBuilder builder(config);
+        auto compiled = builder.buildModule(this);
+        llvm::raw_fd_ostream &out = llvm::outs();
+        DFCIRConverter(config).convertAndPrint(compiled, out);
     }
 
-    void Kernel::compile() {
-        auto compiled = _compile();
-        compiled->dump();
-    }
-
-    void Kernel::compile(const std::string &filePath) {
-        auto compiled = _compile();
+    void Kernel::compile(const DFCXXLatencyConfig &config, const std::string &filePath) {
+        DFCIRBuilder builder(config);
+        auto compiled = builder.buildModule(this);
         std::error_code ec;
         llvm::raw_fd_ostream out(filePath, ec);
-        compiled.print(out);
+        DFCIRConverter(config).convertAndPrint(compiled, out);
         out.close();
     }
 }

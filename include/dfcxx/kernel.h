@@ -2,18 +2,14 @@
 #define DFCXX_KERNEL_H
 
 #include <string>
-#include "dfcxx/builders/builder.h"
-#include "mlir/IR/BuiltinOps.h"
+#include "dfcxx/typedefs.h"
 
 namespace dfcxx {
 
     class Kernel {
-        friend DFCIRBuilder;
-    private:
-        mlir::ModuleOp _compile();
     public:
-        void compile();
-        void compile(const std::string &filePath);
+        void compile(const DFCXXLatencyConfig &config);
+        void compile(const DFCXXLatencyConfig &config, const std::string &filePath);
     };
 
 }
