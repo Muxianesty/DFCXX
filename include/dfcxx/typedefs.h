@@ -12,6 +12,11 @@ namespace dfcxx {
         MUL_FLOAT
     };
 
+    enum Scheduler {
+        Linear = 0,
+        Dijkstra
+    };
+
 } // namespace dfcxx
 
 typedef std::unordered_map<dfcxx::Ops, unsigned> DFCXXLatencyConfig;

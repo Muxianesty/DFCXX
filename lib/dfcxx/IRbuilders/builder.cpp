@@ -1,4 +1,4 @@
-#include "dfcxx/builders/builder.h"
+#include "dfcxx/IRbuilders/builder.h"
 
 #include "mlir/Parser/Parser.h"
 #include "circt/Dialect/FIRRTL/FIRRTLDialect.h"
@@ -21,7 +21,7 @@ namespace dfcxx {
         assert(_ctx.getLoadedDialect<mlir::dfcir::DFCIRDialect>() != nullptr);
         // !!!!!!!!!!TEMPORARY!!!!!!!!!!
         // TODO: Remove in further updates.
-        _module = mlir::parseSourceFile<mlir::ModuleOp>("/home/muxianesty/_test/simple.mlir", &_ctx);
+        _module = mlir::parseSourceFile<mlir::ModuleOp>("/home/muxianesty/_test/scalar3.mlir", &_ctx);
         return _module.get();
     }
 }

@@ -12,7 +12,7 @@ namespace dfcxx {
         LatencyConfig _config;
     public:
         explicit DFCIRConverter(const DFCXXLatencyConfig &config);
-        void convertAndPrint(mlir::ModuleOp module, llvm::raw_fd_ostream &out);
+        void convertAndPrint(mlir::ModuleOp module, llvm::raw_fd_ostream &out, const Scheduler &sched);
     };
 }
 

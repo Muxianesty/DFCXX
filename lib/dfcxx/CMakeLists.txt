@@ -1,10 +1,15 @@
-add_subdirectory(builders)
+add_subdirectory(IRbuilders)
 add_subdirectory(types)
 
 set(SOURCES
         kernel.cpp
-        ${BUILDERS_SOURCES}
+        ${IR_BUILDERS_SOURCES}
+        ${TYPES_SOURCES}
+        ${VAR_BUILDERS_SOURCES}
+        ${TYPE_BUILDERS_SOURCES}
         converter.cpp
+        var.cpp
+        kernstorage.cpp
 )
 
 add_library(DFCXX STATIC

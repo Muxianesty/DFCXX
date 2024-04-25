@@ -3,7 +3,6 @@
 #include "circt/Conversion/Passes.h"
 
 namespace dfcxx {
-
     DFCIRConverter::DFCIRConverter(const DFCXXLatencyConfig &config) {
         _config = LatencyConfig();
         for (auto [op, latency] : config) {
@@ -12,11 +11,14 @@ namespace dfcxx {
         _config[mlir::dfcir::UNDEFINED] = 0;
     }
 
-    void DFCIRConverter::convertAndPrint(mlir::ModuleOp module, llvm::raw_fd_ostream &out) {
+    void DFCIRConverter::convertAndPrint(mlir::ModuleOp module, llvm::raw_fd_ostream &out, const Scheduler &sched) {
         mlir::MLIRContext *context = module.getContext();
         mlir::PassManager pm(context);
         pm.addPass(mlir::dfcir::createDFCIRToFIRRTLPass(&_config));
-        pm.addPass(mlir::dfcir::createDFCIRLinearSchedulerPass());
+        switch (sched) {
+            case Linear: pm.addPass(mlir::dfcir::createDFCIRLinearSchedulerPass()); break;
+            case Dijkstra: pm.addPass(mlir::dfcir::createDFCIRDijkstraSchedulerPass()); break;
+        }
         pm.addPass(circt::createLowerFIRRTLToHWPass());
         pm.addPass(circt::createLowerSeqToSVPass());
         pm.addPass(circt::createExportVerilogPass(out));
