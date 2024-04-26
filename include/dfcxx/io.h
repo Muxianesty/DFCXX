@@ -13,6 +13,7 @@ namespace dfcxx {
         friend Kernel;
     private:
         Graph &graph_;
+        GraphHelper helper_;
         VarBuilder &builder_;
         KernStorage &storage_;
 

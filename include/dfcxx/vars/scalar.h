@@ -12,10 +12,12 @@ namespace dfcxx {
     private:
         const DFType &type_;
 
-        DFScalar(const std::string &name, Direction direction, const DFType &type);
+        DFScalar(const std::string &name, Direction direction, GraphHelper &helper, const DFType &type);
     public:
         ~DFScalar() override = default;
         const DFType &getType() override;
+        DFVariable &operator+ (DFVariable &rhs) override;
+        DFVariable &operator* (DFVariable &rhs) override;
     };
 }
 

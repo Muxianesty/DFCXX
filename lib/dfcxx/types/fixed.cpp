@@ -21,6 +21,11 @@ namespace dfcxx {
         return uint16_t(int_bits_) + frac_bits_;
     }
 
+    bool FixedType::operator== (const DFType &rhs) const {
+        const FixedType &casted = (const FixedType &)(rhs);
+        return mode_ == casted.mode_ && int_bits_ == casted.int_bits_ && frac_bits_ == casted.frac_bits_;
+    }
+
     bool FixedType::isInt() const {
         return frac_bits_ == 0;
     }

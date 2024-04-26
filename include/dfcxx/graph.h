@@ -9,6 +9,27 @@ namespace dfcxx {
     class Graph {
 
     };
+
+    class IO;
+    class VarBuilder;
+    class KernStorage;
+    class DFVariable;
+
+    class GraphHelper {
+        friend IO;
+    private:
+        Graph &graph_;
+
+        GraphHelper(Graph &graph, VarBuilder &builder, KernStorage &storage);
+
+    public:
+        VarBuilder &builder_;
+        KernStorage &storage_;
+
+        void addNode(DFVariable &node);
+        void addChannel(DFVariable &source, DFVariable &target);
+    };
+
 }
 
 #endif // DFCXX_GRAPH_H

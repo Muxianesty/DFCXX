@@ -13,18 +13,26 @@ namespace dfcxx {
         OUTPUT
     };
 
+    class GraphHelper;
+
     class DFVariable {
     private:
         Direction direction_;
         std::string name_;
 
     protected:
-        DFVariable(const std::string &name, Direction direction);
+        GraphHelper &helper_;
+        DFVariable(const std::string &name, Direction direction, GraphHelper &helper);
 
     public:
         virtual ~DFVariable() = default;
         std::string_view getName() const;
         virtual const DFType &getType() = 0;
+
+        virtual DFVariable &operator+(DFVariable &rhs) = 0;
+        virtual DFVariable &operator*(DFVariable &rhs) = 0;
+
+        void connect(DFVariable &connectee);
     };
 }
 

@@ -6,8 +6,8 @@
 namespace dfcxx {
     class VarBuilder {
     public:
-        DFVariable *buildStream(const std::string &name, Direction direction, const DFType &type);
-        DFVariable *buildScalar(const std::string &name, Direction direction, const DFType &type);
+        DFVariable *buildStream(const std::string &name, Direction direction, GraphHelper &helper, const DFType &type);
+        DFVariable *buildScalar(const std::string &name, Direction direction, GraphHelper &helper, const DFType &type);
     };
 }
 

@@ -19,6 +19,8 @@ namespace dfcxx {
         uint8_t getFracBits() const;
         uint16_t getTotalBits() const override;
         ~FloatType() override = default;
+
+        bool operator== (const DFType &rhs) const override;
     };
 }
 

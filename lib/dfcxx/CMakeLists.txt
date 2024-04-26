@@ -14,6 +14,7 @@ set(SOURCES
         converter.cpp
         kernstorage.cpp
         io.cpp
+        graph.cpp
 )
 
 add_library(DFCXX STATIC

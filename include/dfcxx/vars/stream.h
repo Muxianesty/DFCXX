@@ -12,10 +12,12 @@ namespace dfcxx {
     private:
         const DFType &type_;
 
-        DFStream(const std::string &name, Direction direction, const DFType &type);
+        DFStream(const std::string &name, Direction direction, GraphHelper &helper, const DFType &type);
     public:
         ~DFStream() override = default;
         const DFType &getType() override;
+        DFVariable &operator+ (DFVariable &rhs) override;
+        DFVariable &operator* (DFVariable &rhs) override;
     };
 }
 

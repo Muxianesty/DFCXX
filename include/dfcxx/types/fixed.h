@@ -27,6 +27,8 @@ namespace dfcxx {
         uint16_t getTotalBits() const override;
         ~FixedType() override = default;
 
+        bool operator== (const DFType &rhs) const override;
+
         bool isInt() const;
         bool isSigned() const;
         bool isUnsigned() const;
