@@ -4,10 +4,32 @@
 #include <unordered_map>
 #include <unordered_set>
 
+#include "dfcxx/vars/var.h"
+
+#include "dfcxx/node.h"
+#include "dfcxx/channel.h"
+
 namespace dfcxx {
 
-    class Graph {
+    class GraphHelper;
+    class Kernel;
+    class IO;
 
+    class Graph {
+        friend GraphHelper;
+        friend Kernel;
+        friend IO;
+    private:
+        std::unordered_set<Node> nodes_;
+        std::unordered_set<Node> start_nodes_;
+        std::unordered_map<Node, std::unordered_set<Channel>> inputs_;
+        std::unordered_map<Node, std::unordered_set<Channel>> outputs_;
+
+        Graph() = default;
+
+        Node findNode(DFVariable *var);
+        void addNode(DFVariable *var, OpType type, uint16_t offset);
+        void addChannel(DFVariable *source, DFVariable *target);
     };
 
     class IO;
@@ -26,8 +48,8 @@ namespace dfcxx {
         VarBuilder &builder_;
         KernStorage &storage_;
 
-        void addNode(DFVariable &node);
-        void addChannel(DFVariable &source, DFVariable &target);
+        void addNode(DFVariable *var, OpType type, uint16_t offset);
+        void addChannel(DFVariable *source, DFVariable *target);
     };
 
 }

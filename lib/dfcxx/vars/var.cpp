@@ -1,5 +1,9 @@
 #include "dfcxx/vars/var.h"
 
+#include "dfcxx/graph.h"
+#include "dfcxx/varbuilders/builder.h"
+#include "dfcxx/kernstorage.h"
+
 namespace dfcxx {
     DFVariable::DFVariable(const std::string &name, Direction direction, GraphHelper &helper) :
                                                                         name_(name),
@@ -12,6 +16,6 @@ namespace dfcxx {
 
     void DFVariable::connect(dfcxx::DFVariable &connectee) {
         if (getType() != connectee.getType()) { throw std::exception(); }
-        // TODO: Add channel creation.
+        helper_.addChannel(&connectee, this);
     }
 }

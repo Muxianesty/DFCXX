@@ -15,6 +15,8 @@ set(SOURCES
         kernstorage.cpp
         io.cpp
         graph.cpp
+        node.cpp
+        channel.cpp
 )
 
 add_library(DFCXX STATIC
