@@ -5,10 +5,9 @@
 #include <unordered_set>
 
 namespace dfcxx {
-    class Kernel;
 
     class Graph {
-        friend dfcxx::Kernel;
+
     };
 }
 

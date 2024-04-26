@@ -5,7 +5,10 @@
 
 namespace dfcxx {
 
-    class FloatType : DataflowType {
+    class TypeBuilder;
+
+    class FloatType : DFType {
+        friend TypeBuilder;
     private:
         uint8_t exp_bits_;
         uint8_t frac_bits_;

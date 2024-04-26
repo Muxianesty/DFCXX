@@ -3,7 +3,7 @@
 #include "circt/Conversion/Passes.h"
 
 namespace dfcxx {
-    DFCIRConverter::DFCIRConverter(const DFCXXLatencyConfig &config) {
+    DFCIRConverter::DFCIRConverter(const DFLatencyConfig &config) {
         _config = LatencyConfig();
         for (auto [op, latency] : config) {
             _config[static_cast<mlir::dfcir::Ops>(op)] = latency;

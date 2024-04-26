@@ -19,6 +19,6 @@ namespace dfcxx {
 
 } // namespace dfcxx
 
-typedef std::unordered_map<dfcxx::Ops, unsigned> DFCXXLatencyConfig;
+typedef std::unordered_map<dfcxx::Ops, unsigned> DFLatencyConfig;
 
 #endif // DFCXX_TYPEDEFS_H

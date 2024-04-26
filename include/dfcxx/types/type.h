@@ -5,10 +5,10 @@
 
 
 namespace dfcxx {
-    class DataflowType {
+    class DFType {
     public:
         virtual uint16_t getTotalBits() const = 0;
-        virtual ~DataflowType() = 0;
+        virtual ~DFType() = default;
     };
 }
 

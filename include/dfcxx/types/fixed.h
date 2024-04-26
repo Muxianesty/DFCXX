@@ -10,7 +10,10 @@ namespace dfcxx {
         SIGNED
     };
 
-    class FixedType : DataflowType {
+    class TypeBuilder;
+
+    class FixedType : DFType {
+        friend TypeBuilder;
     private:
         SignMode mode_;
         uint8_t int_bits_;

@@ -5,9 +5,9 @@
 #include "circt/Dialect/SV/SVDialect.h"
 
 namespace dfcxx {
-    DFCIRBuilder::DFCIRBuilder(const DFCXXLatencyConfig &config) : _ctx(),
-                                                                   _config(config),
-                                                                   _builder(&_ctx) {
+    DFCIRBuilder::DFCIRBuilder(const DFLatencyConfig &config) : _ctx(),
+                                                                _config(config),
+                                                                _builder(&_ctx) {
         // We are allowed to initialize '_builder'-field before loading
         // dialects as OpBuilder only stores the pointer to MLIRContext
         // and doesn't check any of its state.
