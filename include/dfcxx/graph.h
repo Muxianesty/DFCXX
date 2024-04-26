@@ -1,6 +1,7 @@
 #ifndef DFCXX_GRAPH_H
 #define DFCXX_GRAPH_H
 
+#include <vector>
 #include <unordered_map>
 #include <unordered_set>
 
@@ -14,22 +15,25 @@ namespace dfcxx {
     class GraphHelper;
     class Kernel;
     class IO;
+    class DFCIRBuilder;
 
     class Graph {
         friend GraphHelper;
         friend Kernel;
         friend IO;
+        friend DFCIRBuilder;
     private:
         std::unordered_set<Node> nodes_;
         std::unordered_set<Node> start_nodes_;
-        std::unordered_map<Node, std::unordered_set<Channel>> inputs_;
-        std::unordered_map<Node, std::unordered_set<Channel>> outputs_;
+        std::unordered_map<Node, std::vector<Channel>> inputs_;
+        std::unordered_map<Node, std::vector<Channel>> outputs_;
+        std::unordered_map<Node, Channel> connections_;
 
         Graph() = default;
 
         Node findNode(DFVariable *var);
         void addNode(DFVariable *var, OpType type, uint16_t offset);
-        void addChannel(DFVariable *source, DFVariable *target);
+        void addChannel(DFVariable *source, DFVariable *target, unsigned op_ind, bool connect);
     };
 
     class IO;
@@ -49,7 +53,7 @@ namespace dfcxx {
         KernStorage &storage_;
 
         void addNode(DFVariable *var, OpType type, uint16_t offset);
-        void addChannel(DFVariable *source, DFVariable *target);
+        void addChannel(DFVariable *source, DFVariable *target, unsigned op_ind, bool connect);
     };
 
 }

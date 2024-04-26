@@ -12,6 +12,9 @@ namespace dfcxx {
 
         virtual bool operator== (const DFType &rhs) const = 0;
         bool operator!= (const DFType &rhs) const;
+
+        virtual bool isFixed() const;
+        virtual bool isFloat() const;
     };
 }
 

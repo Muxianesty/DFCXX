@@ -16,10 +16,13 @@
 
 namespace dfcxx {
 
+    class DFCIRBuilder;
+
     class Kernel {
-        friend IO;
-        friend Offset;
-        friend Constant;
+        //friend IO;
+        //friend Offset;
+        //friend Constant;
+        friend DFCIRBuilder;
     protected:
         IO io;
         Offset offset;

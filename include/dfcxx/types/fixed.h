@@ -29,6 +29,8 @@ namespace dfcxx {
 
         bool operator== (const DFType &rhs) const override;
 
+        bool isFixed() const override;
+
         bool isInt() const;
         bool isSigned() const;
         bool isUnsigned() const;

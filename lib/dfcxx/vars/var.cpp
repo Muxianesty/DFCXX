@@ -14,8 +14,16 @@ namespace dfcxx {
         return name_;
     }
 
+    bool DFVariable::isStream() {
+        return false;
+    }
+
+    bool DFVariable::isScalar() {
+        return false;
+    }
+
     void DFVariable::connect(dfcxx::DFVariable &connectee) {
         if (getType() != connectee.getType()) { throw std::exception(); }
-        helper_.addChannel(&connectee, this);
+        helper_.addChannel(&connectee, this, 0, true);
     }
 }

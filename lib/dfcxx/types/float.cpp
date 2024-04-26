@@ -21,4 +21,7 @@ namespace dfcxx {
         return exp_bits_ == casted.exp_bits_ && frac_bits_ == casted.frac_bits_;
     }
 
+    bool FloatType::isFloat() const {
+        return true;
+    }
 }

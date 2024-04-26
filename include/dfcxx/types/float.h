@@ -21,6 +21,8 @@ namespace dfcxx {
         ~FloatType() override = default;
 
         bool operator== (const DFType &rhs) const override;
+
+        bool isFloat() const override;
     };
 }
 

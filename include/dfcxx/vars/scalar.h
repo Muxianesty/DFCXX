@@ -18,6 +18,8 @@ namespace dfcxx {
         const DFType &getType() override;
         DFVariable &operator+ (DFVariable &rhs) override;
         DFVariable &operator* (DFVariable &rhs) override;
+
+        bool isScalar() override;
     };
 }
 

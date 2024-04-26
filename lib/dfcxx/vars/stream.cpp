@@ -18,8 +18,8 @@ namespace dfcxx {
         DFVariable *newVar = helper_.builder_.buildStream("", Direction::NONE, helper_, type_);
         helper_.storage_.addVariable(newVar);
         helper_.addNode(newVar, OpType::ADD, 0);
-        helper_.addChannel(this, newVar);
-        helper_.addChannel(&rhs, newVar);
+        helper_.addChannel(this, newVar, 0, false);
+        helper_.addChannel(&rhs, newVar, 1, false);
         return *newVar;
     }
 
@@ -28,9 +28,13 @@ namespace dfcxx {
         DFVariable *newVar = helper_.builder_.buildStream("", Direction::NONE, helper_, type_);
         helper_.storage_.addVariable(newVar);
         helper_.addNode(newVar, OpType::MUL, 0);
-        helper_.addChannel(this, newVar);
-        helper_.addChannel(&rhs, newVar);
+        helper_.addChannel(this, newVar, 0, false);
+        helper_.addChannel(&rhs, newVar, 1, false);
         return *newVar;
+    }
+
+    bool DFStream::isStream() {
+        return true;
     }
 
 }

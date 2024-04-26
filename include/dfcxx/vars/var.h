@@ -32,6 +32,9 @@ namespace dfcxx {
         virtual DFVariable &operator+(DFVariable &rhs) = 0;
         virtual DFVariable &operator*(DFVariable &rhs) = 0;
 
+        virtual bool isStream();
+        virtual bool isScalar();
+
         void connect(DFVariable &connectee);
     };
 }

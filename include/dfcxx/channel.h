@@ -7,8 +7,9 @@ namespace dfcxx {
     struct Channel {
         Node source_;
         Node target_;
+        unsigned op_ind_;
 
-        Channel(Node source, Node target);
+        Channel(Node source, Node target, unsigned op_ind);
 
         bool operator== (const Channel &channel) const;
     };

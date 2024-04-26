@@ -26,6 +26,10 @@ namespace dfcxx {
         return mode_ == casted.mode_ && int_bits_ == casted.int_bits_ && frac_bits_ == casted.frac_bits_;
     }
 
+    bool FixedType::isFixed() const {
+        return true;
+    }
+
     bool FixedType::isInt() const {
         return frac_bits_ == 0;
     }
