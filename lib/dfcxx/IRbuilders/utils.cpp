@@ -43,11 +43,12 @@ namespace dfcxx {
 
         auto name_attr = mlir::StringAttr::get(&ctx_, node.var_->getName());
 
+        auto no_sign = mlir::IntegerType::get(builder.getContext(), 64, mlir::IntegerType::Signless);
+
         switch (node.type_) {
             case OFFSET: {
                 Node in = ins[0].source_;
-                auto no_sign = mlir::IntegerType::get(builder.getContext(), 64, mlir::IntegerType::Signless);
-                auto attr = mlir::IntegerAttr::get(no_sign, node.offset_);
+                auto attr = mlir::IntegerAttr::get(no_sign, node.data_.offset_);
                 auto newOp = builder.create<mlir::dfcir::OffsetOp>(loc, conv_[in.var_], map_[in], attr);
                 map_[node] = newOp.getResult();
                 break;
@@ -73,10 +74,16 @@ namespace dfcxx {
                 break;
             }
             case CONST: {
+                auto attr = mlir::IntegerAttr::get(no_sign, node.data_.const_value_);
+                auto newOp = builder.create<mlir::dfcir::ConstantOp>(loc, conv_[node.var_], attr);
+                map_[node] = newOp.getRes();
                 break;
             }
             case MUX: {
-                break;
+                Node ctrl = ins[node.data_.mux_id_].source_;
+                // TODO: Test!!!!!
+                auto newOp = builder.create<mlir::dfcir::MuxOp>(loc, conv_[node.var_], map_[ctrl], mlir::ValueRange());
+                map_[node] = newOp.getRes();
             }
             case ADD: {
                 Node first = ins[0].source_;
@@ -86,9 +93,17 @@ namespace dfcxx {
                 break;
             }
             case SUB: {
+                Node first = ins[0].source_;
+                Node second = ins[1].source_;
+                auto newOp = builder.create<mlir::dfcir::SubOp>(loc, conv_[node.var_], map_[first], map_[second]);
+                map_[node] = newOp.getResult();
                 break;
             }
             case DIV: {
+                Node first = ins[0].source_;
+                Node second = ins[1].source_;
+                auto newOp = builder.create<mlir::dfcir::DivOp>(loc, conv_[node.var_], map_[first], map_[second]);
+                map_[node] = newOp.getResult();
                 break;
             }
             case MUL: {

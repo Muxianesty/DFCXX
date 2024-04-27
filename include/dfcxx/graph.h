@@ -32,7 +32,7 @@ namespace dfcxx {
         Graph() = default;
 
         Node findNode(DFVariable *var);
-        void addNode(DFVariable *var, OpType type, uint16_t offset);
+        void addNode(DFVariable *var, OpType type, NodeData data);
         void addChannel(DFVariable *source, DFVariable *target, unsigned op_ind, bool connect);
     };
 
@@ -52,7 +52,7 @@ namespace dfcxx {
         VarBuilder &builder_;
         KernStorage &storage_;
 
-        void addNode(DFVariable *var, OpType type, uint16_t offset);
+        void addNode(DFVariable *var, OpType type, NodeData data);
         void addChannel(DFVariable *source, DFVariable *target, unsigned op_ind, bool connect);
     };
 

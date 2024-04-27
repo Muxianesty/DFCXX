@@ -17,12 +17,19 @@ namespace dfcxx {
         MUL
     };
 
+    union NodeData {
+        int64_t offset_;
+        int64_t const_value_;
+        uint64_t mux_id_;
+    };
+
     struct Node {
         DFVariable *var_;
         OpType type_;
-        uint16_t offset_;
+        NodeData data_;
 
-        Node(DFVariable *var, OpType _type, uint16_t offset_);
+
+        Node(DFVariable *var, OpType _type, NodeData data_);
 
         bool operator== (const Node &node) const;
     };

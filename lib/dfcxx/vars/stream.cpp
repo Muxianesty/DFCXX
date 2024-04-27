@@ -17,7 +17,7 @@ namespace dfcxx {
         if (type_ != rhs.getType()) { throw std::exception(); }
         DFVariable *newVar = helper_.builder_.buildStream("", Direction::NONE, helper_, type_);
         helper_.storage_.addVariable(newVar);
-        helper_.addNode(newVar, OpType::ADD, 0);
+        helper_.addNode(newVar, OpType::ADD, NodeData{});
         helper_.addChannel(this, newVar, 0, false);
         helper_.addChannel(&rhs, newVar, 1, false);
         return *newVar;
@@ -27,7 +27,7 @@ namespace dfcxx {
         if (type_ != rhs.getType()) { throw std::exception(); }
         DFVariable *newVar = helper_.builder_.buildStream("", Direction::NONE, helper_, type_);
         helper_.storage_.addVariable(newVar);
-        helper_.addNode(newVar, OpType::MUL, 0);
+        helper_.addNode(newVar, OpType::MUL, NodeData{});
         helper_.addChannel(this, newVar, 0, false);
         helper_.addChannel(&rhs, newVar, 1, false);
         return *newVar;

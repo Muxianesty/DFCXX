@@ -10,10 +10,10 @@ namespace dfcxx {
             });
     }
 
-    void Graph::addNode(DFVariable *var, OpType type, uint16_t offset) {
-        nodes_.emplace(var, type, offset);
+    void Graph::addNode(DFVariable *var, OpType type, NodeData data) {
+        nodes_.emplace(var, type, data);
         if (type == IN || type == CONST) {
-            start_nodes_.emplace(var, type, offset);
+            start_nodes_.emplace(var, type, data);
         }
     }
 
@@ -31,8 +31,8 @@ namespace dfcxx {
 
     GraphHelper::GraphHelper(Graph &graph, VarBuilder &builder, KernStorage &storage) : graph_(graph), builder_(builder), storage_(storage) {}
 
-    void GraphHelper::addNode(DFVariable *var, OpType type, uint16_t offset) {
-        graph_.addNode(var, type, offset);
+    void GraphHelper::addNode(DFVariable *var, OpType type, NodeData data) {
+        graph_.addNode(var, type, data);
     }
 
     void GraphHelper::addChannel(DFVariable *source, DFVariable *target, unsigned op_ind, bool connect) {
