@@ -1,6 +1,8 @@
 #include "dfcxx/io.h"
 
 namespace dfcxx {
+    using Direction = dfcxx::DFVariable::Direction;
+
     IO::IO(Graph &graph, VarBuilder &builder, KernStorage &storage) : graph_(graph),
                                                                       helper_(graph, builder, storage),
                                                                       builder_(builder),

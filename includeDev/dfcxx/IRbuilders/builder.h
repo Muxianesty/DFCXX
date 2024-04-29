@@ -20,6 +20,8 @@ namespace dfcxx {
         mlir::OwningOpRef<mlir::ModuleOp> module_;
         DFCIRTypeConverter conv_;
 
+        std::unordered_map<Node, llvm::SmallVector<mlir::Value>> mux_map_;
+
         void buildKernelBody(Graph *graph, mlir::OpBuilder &builder);
         mlir::dfcir::KernelOp buildKernel(Kernel *kern, mlir::OpBuilder &builder);
         mlir::ModuleOp buildModule(Kernel *kern, mlir::OpBuilder &builder);

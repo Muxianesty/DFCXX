@@ -1,6 +1,5 @@
 #include "dfcxx/IRbuilders/builder.h"
 
-
 namespace dfcxx {
     std::stack<Node> DFCIRBuilder::topSortNodes(Graph *graph) {
         std::stack<Node> result;
@@ -43,11 +42,10 @@ namespace dfcxx {
 
         auto name_attr = mlir::StringAttr::get(&ctx_, node.var_->getName());
 
-        auto no_sign = mlir::IntegerType::get(builder.getContext(), 64, mlir::IntegerType::Signless);
-
         switch (node.type_) {
             case OFFSET: {
                 Node in = ins[0].source_;
+                auto no_sign = mlir::IntegerType::get(builder.getContext(), 64, mlir::IntegerType::Signless);
                 auto attr = mlir::IntegerAttr::get(no_sign, node.data_.offset_);
                 auto newOp = builder.create<mlir::dfcir::OffsetOp>(loc, conv_[in.var_], map_[in], attr);
                 map_[node] = newOp.getResult();
@@ -74,7 +72,29 @@ namespace dfcxx {
                 break;
             }
             case CONST: {
-                auto attr = mlir::IntegerAttr::get(no_sign, node.data_.const_value_);
+                auto constant = (DFConstant *)(node.var_);
+                int64_t val;
+                mlir::IntegerType attr_type;
+                unsigned width = constant->getType().getTotalBits();
+                switch (constant->getKind()) {
+                    case DFConstant::INT:
+                        val = constant->getInt();
+                        attr_type = mlir::IntegerType::get(builder.getContext(), width, mlir::IntegerType::Signed);
+                        break;
+                    case DFConstant::UINT: {
+                        auto tmpU = constant->getUInt();
+                        memcpy(&val, &tmpU, sizeof(val));
+                        attr_type = mlir::IntegerType::get(builder.getContext(), width, mlir::IntegerType::Unsigned);
+                        break;
+                    }
+                    case DFConstant::FLOAT: {
+                        auto tmpD = constant->getDouble();
+                        memcpy(&val, &tmpD, sizeof(val));
+                        attr_type = mlir::IntegerType::get(builder.getContext(), width, mlir::IntegerType::Signless);
+                        break;
+                    }
+                }
+                auto attr = mlir::IntegerAttr::get(attr_type, val);
                 auto newOp = builder.create<mlir::dfcir::ConstantOp>(loc, conv_[node.var_], attr);
                 map_[node] = newOp.getRes();
                 break;
@@ -82,7 +102,14 @@ namespace dfcxx {
             case MUX: {
                 Node ctrl = ins[node.data_.mux_id_].source_;
                 // TODO: Test!!!!!
-                auto newOp = builder.create<mlir::dfcir::MuxOp>(loc, conv_[node.var_], map_[ctrl], mlir::ValueRange());
+                llvm::SmallVector<mlir::Value> mux;
+                for (size_t i = 0; i < ins.size(); ++i) {
+                    if (i != node.data_.mux_id_) {
+                        mux.push_back(map_[ins[i].source_]);
+                    }
+                }
+                mux_map_[node] = mux;
+                auto newOp = builder.create<mlir::dfcir::MuxOp>(loc, conv_[node.var_], map_[ctrl], mux_map_[node]);
                 map_[node] = newOp.getRes();
             }
             case ADD: {
@@ -119,6 +146,4 @@ namespace dfcxx {
             builder.create<mlir::dfcir::ConnectOp>(loc, map_[node], map_[con_src]);
         }
     }
-
-
 }

@@ -7,15 +7,17 @@
 
 namespace dfcxx {
 
-    enum Direction {
-        NONE = 0,
-        INPUT,
-        OUTPUT
-    };
-
     class GraphHelper;
 
     class DFVariable {
+
+    public:
+        enum Direction {
+            NONE = 0,
+            INPUT,
+            OUTPUT
+        };
+
     private:
         Direction direction_;
         std::string name_;
@@ -34,6 +36,7 @@ namespace dfcxx {
 
         virtual bool isStream();
         virtual bool isScalar();
+        virtual bool isConstant();
 
         void connect(DFVariable &connectee);
     };

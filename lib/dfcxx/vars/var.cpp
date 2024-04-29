@@ -22,6 +22,10 @@ namespace dfcxx {
         return false;
     }
 
+    bool DFVariable::isConstant() {
+        return false;
+    }
+
     void DFVariable::connect(dfcxx::DFVariable &connectee) {
         if (getType() != connectee.getType()) { throw std::exception(); }
         helper_.addChannel(&connectee, this, 0, true);

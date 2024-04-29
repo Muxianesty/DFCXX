@@ -5,7 +5,7 @@
 
 namespace dfcxx {
 
-    enum OpType {
+    enum OpType : uint8_t {
         OFFSET = 0,
         IN,
         OUT,
@@ -19,7 +19,6 @@ namespace dfcxx {
 
     union NodeData {
         int64_t offset_;
-        int64_t const_value_;
         uint64_t mux_id_;
     };
 

@@ -15,12 +15,14 @@ namespace dfcxx {
     class GraphHelper;
     class Kernel;
     class IO;
+    class Constant;
     class DFCIRBuilder;
 
     class Graph {
         friend GraphHelper;
         friend Kernel;
         friend IO;
+        friend Constant;
         friend DFCIRBuilder;
     private:
         std::unordered_set<Node> nodes_;
@@ -37,12 +39,14 @@ namespace dfcxx {
     };
 
     class IO;
+    class Constant;
     class VarBuilder;
     class KernStorage;
     class DFVariable;
 
     class GraphHelper {
         friend IO;
+        friend Constant;
     private:
         Graph &graph_;
 

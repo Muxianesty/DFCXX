@@ -21,6 +21,8 @@ namespace dfcxx {
             return mlir::dfcir::DFCIRStreamType::get(ctx_, newInnerType);
         } else if (var->isScalar()) {
             return mlir::dfcir::DFCIRScalarType::get(ctx_, newInnerType);
+        } else if (var->isConstant()) {
+            return mlir::dfcir::DFCIRConstantType::get(ctx_, newInnerType);
         }
         return nullptr;
     }
