@@ -1,5 +1,5 @@
-#ifndef DFCXX_OFFSET_H
-#define DFCXX_OFFSET_H
+#ifndef DFCXX_CONTROL_H
+#define DFCXX_CONTROL_H
 
 #include "dfcxx/graph.h"
 #include "dfcxx/varbuilders/builder.h"
@@ -9,7 +9,7 @@ namespace dfcxx {
 
     class Kernel;
 
-    class Offset {
+    class Control {
         friend Kernel;
     private:
         Graph &graph_;
@@ -17,11 +17,11 @@ namespace dfcxx {
         VarBuilder &builder_;
         KernStorage &storage_;
 
-        Offset(Graph &graph, VarBuilder &builder, KernStorage &storage);
+        Control(Graph &graph, VarBuilder &builder, KernStorage &storage);
 
     public:
-        DFVariable &operator()(DFVariable &stream, int64_t offset);
+        DFVariable &mux(DFVariable &ctrl, DFVariable &var1, DFVariable &var2);
     };
 }
 
-#endif // DFCXX_OFFSET_H
+#endif // DFCXX_CONTROL_H

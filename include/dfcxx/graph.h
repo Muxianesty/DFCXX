@@ -15,14 +15,21 @@ namespace dfcxx {
     class GraphHelper;
     class Kernel;
     class IO;
+    class Offset;
     class Constant;
+    class Control;
     class DFCIRBuilder;
+    class VarBuilder;
+    class KernStorage;
+
 
     class Graph {
         friend GraphHelper;
         friend Kernel;
         friend IO;
+        friend Offset;
         friend Constant;
+        friend Control;
         friend DFCIRBuilder;
     private:
         std::unordered_set<Node> nodes_;
@@ -38,15 +45,11 @@ namespace dfcxx {
         void addChannel(DFVariable *source, DFVariable *target, unsigned op_ind, bool connect);
     };
 
-    class IO;
-    class Constant;
-    class VarBuilder;
-    class KernStorage;
-    class DFVariable;
-
     class GraphHelper {
         friend IO;
+        friend Offset;
         friend Constant;
+        friend Control;
     private:
         Graph &graph_;
 

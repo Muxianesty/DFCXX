@@ -52,6 +52,7 @@ namespace dfcxx {
         // !!!!!!!!!!DEBUG!!!!!!!!!!
         // TODO: Remove in further updates.
         //module_ = mlir::parseSourceFile<mlir::ModuleOp>("/home/muxianesty/_test/simple.mlir", &ctx_);
+        //module_->dump();
         return module_.get();
     }
 }

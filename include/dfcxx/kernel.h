@@ -6,6 +6,7 @@
 #include "dfcxx/io.h"
 #include "dfcxx/offset.h"
 #include "dfcxx/constant.h"
+#include "dfcxx/control.h"
 #include "dfcxx/types/types.h"
 #include "dfcxx/vars/var.h"
 #include "dfcxx/kernstorage.h"
@@ -19,14 +20,12 @@ namespace dfcxx {
     class DFCIRBuilder;
 
     class Kernel {
-        //friend IO;
-        //friend Offset;
-        //friend Constant;
         friend DFCIRBuilder;
     protected:
         IO io;
         Offset offset;
         Constant constant;
+        Control control;
 
         DFType &dfUInt(uint8_t bytes);
         DFType &dfInt(uint8_t bytes);

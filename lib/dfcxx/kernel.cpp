@@ -9,7 +9,9 @@ namespace dfcxx {
 
     Kernel::Kernel() : storage_(), type_builder_(), var_builder_(),
                        graph_(), io(graph_, var_builder_, storage_),
-                       constant(graph_, var_builder_, storage_) { }
+                       offset(graph_, var_builder_, storage_),
+                       constant(graph_, var_builder_, storage_),
+                       control(graph_, var_builder_, storage_) { }
 
     DFType &Kernel::dfUInt(uint8_t bytes) {
         DFType *type = type_builder_.buildFixed(SignMode::UNSIGNED, bytes, 0);

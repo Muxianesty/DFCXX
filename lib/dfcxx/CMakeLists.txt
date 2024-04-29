@@ -14,7 +14,9 @@ set(SOURCES
         converter.cpp
         kernstorage.cpp
         io.cpp
+        offset.cpp
         constant.cpp
+        control.cpp
         graph.cpp
         node.cpp
         channel.cpp

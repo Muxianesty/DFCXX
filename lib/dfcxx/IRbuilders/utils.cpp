@@ -45,8 +45,8 @@ namespace dfcxx {
         switch (node.type_) {
             case OFFSET: {
                 Node in = ins[0].source_;
-                auto no_sign = mlir::IntegerType::get(builder.getContext(), 64, mlir::IntegerType::Signless);
-                auto attr = mlir::IntegerAttr::get(no_sign, node.data_.offset_);
+                auto type = mlir::IntegerType::get(builder.getContext(), 64, mlir::IntegerType::Signless);
+                auto attr = mlir::IntegerAttr::get(type, node.data_.offset_);
                 auto newOp = builder.create<mlir::dfcir::OffsetOp>(loc, conv_[in.var_], map_[in], attr);
                 map_[node] = newOp.getResult();
                 break;
@@ -101,9 +101,8 @@ namespace dfcxx {
             }
             case MUX: {
                 Node ctrl = ins[node.data_.mux_id_].source_;
-                // TODO: Test!!!!!
                 llvm::SmallVector<mlir::Value> mux;
-                for (size_t i = 0; i < ins.size(); ++i) {
+                for (int i = ins.size() - 1; i >= 0 ; --i) {
                     if (i != node.data_.mux_id_) {
                         mux.push_back(map_[ins[i].source_]);
                     }
@@ -111,6 +110,7 @@ namespace dfcxx {
                 mux_map_[node] = mux;
                 auto newOp = builder.create<mlir::dfcir::MuxOp>(loc, conv_[node.var_], map_[ctrl], mux_map_[node]);
                 map_[node] = newOp.getRes();
+                break;
             }
             case ADD: {
                 Node first = ins[0].source_;
