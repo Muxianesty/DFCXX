@@ -1,0 +1,7 @@
+find_package(DFCIR REQUIRED CONFIG
+             HINTS "@DFCIR_BUILD_DIR@")
+
+find_package(CIRCT REQUIRED CONFIG
+             HINTS "@CIRCT_BIN_HOME@")
+			 
+include(${CMAKE_CURRENT_LIST_DIR}/DFCXXTargets.cmake)

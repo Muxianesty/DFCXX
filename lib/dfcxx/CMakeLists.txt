@@ -20,11 +20,11 @@ set(SOURCES
         graph.cpp
         node.cpp
         channel.cpp
-)
+        )
 
 add_library(DFCXX STATIC
         ${SOURCES}
-)
+        )
 
 target_include_directories(DFCXX
         PUBLIC
@@ -34,12 +34,15 @@ target_include_directories(DFCXX
         $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/includeDev>
         )
 
-## MLIRDFCIR has to be compiled beforehand.
+## MLIRDFCIR is ensured to be compiled beforehand.
 target_link_libraries(DFCXX
-        PUBLIC MLIRDFCIR
-        PUBLIC CIRCTHW
-        PUBLIC CIRCTSV
-        PUBLIC CIRCTFIRRTLToHW
-        PUBLIC CIRCTSeqToSV
-        PUBLIC CIRCTExportVerilog)
-add_dependencies(DFCXX MLIRDFCIR)
+        PRIVATE $<LINK_ONLY:DFCIR::MLIRDFCIR>
+        PRIVATE $<LINK_ONLY:CIRCTHW>
+        PRIVATE $<LINK_ONLY:CIRCTSV>
+        PRIVATE $<LINK_ONLY:CIRCTFIRRTLToHW>
+        PRIVATE $<LINK_ONLY:CIRCTSeqToSV>
+        PRIVATE $<LINK_ONLY:CIRCTExportVerilog>
+        )
+
+
+add_library(DFCXX::DFCXX ALIAS DFCXX)
