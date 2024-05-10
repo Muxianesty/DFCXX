@@ -5,25 +5,30 @@
 
 namespace dfcxx {
 
-    class TypeBuilder;
+class TypeBuilder;
 
-    class FloatType : DFType {
-        friend TypeBuilder;
-    private:
-        uint8_t exp_bits_;
-        uint8_t frac_bits_;
+class FloatType : DFType {
+  friend TypeBuilder;
+private:
+  uint8_t expBits;
+  uint8_t fracBits;
 
-        FloatType(uint8_t exp_bits, uint8_t frac_bits);
-    public:
-        uint8_t getExpBits() const;
-        uint8_t getFracBits() const;
-        uint16_t getTotalBits() const override;
-        ~FloatType() override = default;
+  FloatType(uint8_t expBits, uint8_t fracBits);
 
-        bool operator== (const DFType &rhs) const override;
+public:
+  uint8_t getExpBits() const;
 
-        bool isFloat() const override;
-    };
-}
+  uint8_t getFracBits() const;
+
+  uint16_t getTotalBits() const override;
+
+  ~FloatType() override = default;
+
+  bool operator==(const DFType &rhs) const override;
+
+  bool isFloat() const override;
+};
+
+} // namespace dfcxx
 
 #endif // DFCXX_FLOAT_H

@@ -5,17 +5,17 @@
 
 namespace dfcxx {
 
-    enum Ops {
-        ADD_INT = 1,
-        ADD_FLOAT,
-        MUL_INT,
-        MUL_FLOAT
-    };
+enum Ops {
+  ADD_INT = 1,
+  ADD_FLOAT,
+  MUL_INT,
+  MUL_FLOAT
+};
 
-    enum Scheduler {
-        Linear = 0,
-        Dijkstra
-    };
+enum Scheduler {
+  Linear = 0,
+  Dijkstra
+};
 
 } // namespace dfcxx
 

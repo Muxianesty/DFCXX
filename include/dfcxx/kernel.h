@@ -1,51 +1,58 @@
 #ifndef DFCXX_KERNEL_H
 #define DFCXX_KERNEL_H
 
-#include <string_view>
-#include "dfcxx/typedefs.h"
-#include "dfcxx/io.h"
-#include "dfcxx/offset.h"
 #include "dfcxx/constant.h"
 #include "dfcxx/control.h"
-#include "dfcxx/types/types.h"
-#include "dfcxx/vars/var.h"
-#include "dfcxx/kernstorage.h"
 #include "dfcxx/graph.h"
-
+#include "dfcxx/io.h"
+#include "dfcxx/kernstorage.h"
+#include "dfcxx/offset.h"
 #include "dfcxx/typebuilders/builder.h"
+#include "dfcxx/typedefs.h"
+#include "dfcxx/types/types.h"
 #include "dfcxx/varbuilders/builder.h"
+#include "dfcxx/vars/var.h"
+
+#include <string_view>
 
 namespace dfcxx {
 
-    class DFCIRBuilder;
+class DFCIRBuilder;
 
-    class Kernel {
-        friend DFCIRBuilder;
-    protected:
-        IO io;
-        Offset offset;
-        Constant constant;
-        Control control;
+class Kernel {
+  friend DFCIRBuilder;
+protected:
+  IO io;
+  Offset offset;
+  Constant constant;
+  Control control;
 
-        DFType &dfUInt(uint8_t bytes);
-        DFType &dfInt(uint8_t bytes);
-        DFType &dfBool();
+  DFType &dfUInt(uint8_t bytes);
 
-        Kernel();
+  DFType &dfInt(uint8_t bytes);
 
-    private:
-        KernStorage storage_;
-        TypeBuilder type_builder_;
-        VarBuilder var_builder_;
-        Graph graph_;
+  DFType &dfBool();
 
-    public:
-        virtual ~Kernel() = default;
-        virtual std::string_view getName() = 0;
-        void compile(const DFLatencyConfig &config, const Scheduler &sched);
-        void compile(const DFLatencyConfig &config, const std::string &filePath, const Scheduler &sched);
-    };
-}
+  Kernel();
+
+private:
+  KernStorage storage;
+  TypeBuilder typeBuilder;
+  VarBuilder varBuilder;
+  Graph graph;
+
+public:
+  virtual ~Kernel() = default;
+
+  virtual std::string_view getName() = 0;
+
+  void compile(const DFLatencyConfig &config, const Scheduler &sched);
+
+  void compile(const DFLatencyConfig &config, const std::string &filePath,
+               const Scheduler &sched);
+};
+
+} // namespace dfcxx
 
 
 #endif // DFCXX_KERNEL_H

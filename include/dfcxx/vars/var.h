@@ -1,45 +1,53 @@
 #ifndef DFCXX_VAR_H
 #define DFCXX_VAR_H
 
+#include "dfcxx/types/type.h"
+
 #include <string_view>
 #include <string>
-#include "dfcxx/types/type.h"
 
 namespace dfcxx {
 
-    class GraphHelper;
+class GraphHelper;
 
-    class DFVariable {
+class DFVariable {
 
-    public:
-        enum Direction {
-            NONE = 0,
-            INPUT,
-            OUTPUT
-        };
+public:
+  enum Direction {
+    NONE = 0,
+    INPUT,
+    OUTPUT
+  };
 
-    private:
-        Direction direction_;
-        std::string name_;
+private:
+  Direction direction;
+  std::string name;
 
-    protected:
-        GraphHelper &helper_;
-        DFVariable(const std::string &name, Direction direction, GraphHelper &helper);
+protected:
+  GraphHelper &helper;
 
-    public:
-        virtual ~DFVariable() = default;
-        std::string_view getName() const;
-        virtual const DFType &getType() = 0;
+  DFVariable(const std::string &name, Direction direction, GraphHelper &helper);
 
-        virtual DFVariable &operator+(DFVariable &rhs) = 0;
-        virtual DFVariable &operator*(DFVariable &rhs) = 0;
+public:
+  virtual ~DFVariable() = default;
 
-        virtual bool isStream();
-        virtual bool isScalar();
-        virtual bool isConstant();
+  std::string_view getName() const;
 
-        void connect(DFVariable &connectee);
-    };
-}
+  virtual const DFType &getType() = 0;
+
+  virtual DFVariable &operator+(DFVariable &rhs) = 0;
+
+  virtual DFVariable &operator*(DFVariable &rhs) = 0;
+
+  virtual bool isStream();
+
+  virtual bool isScalar();
+
+  virtual bool isConstant();
+
+  void connect(DFVariable &connectee);
+};
+
+} // namespace dfcxx
 
 #endif // DFCXX_VAR_H

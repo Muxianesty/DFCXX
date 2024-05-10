@@ -1,39 +1,43 @@
+#include "dfcxx/graph.h"
+#include "dfcxx/kernstorage.h"
+#include "dfcxx/varbuilders/builder.h"
 #include "dfcxx/vars/scalar.h"
 
-#include "dfcxx/graph.h"
-#include "dfcxx/varbuilders/builder.h"
-#include "dfcxx/kernstorage.h"
-
 namespace dfcxx {
-    DFScalar::DFScalar(const std::string &name, Direction direction, GraphHelper &helper, const dfcxx::DFType &type) :
-            DFVariable(name, direction, helper),
-            type_(type) {}
 
-    const DFType &DFScalar::getType() {
-        return type_;
-    }
+DFScalar::DFScalar(const std::string &name, Direction direction,
+                   GraphHelper &helper, const dfcxx::DFType &type) :
+        DFVariable(name, direction, helper),
+        type(type) {}
 
-    DFVariable &DFScalar::operator+(DFVariable &rhs) {
-        if (type_ != rhs.getType()) { throw std::exception(); }
-        DFVariable *newVar = helper_.builder_.buildStream("", Direction::NONE, helper_, type_);
-        helper_.storage_.addVariable(newVar);
-        helper_.addNode(newVar, OpType::ADD, NodeData{});
-        helper_.addChannel(this, newVar, 0, false);
-        helper_.addChannel(&rhs, newVar, 1, false);
-        return *newVar;
-    }
-
-    DFVariable &DFScalar::operator*(DFVariable &rhs) {
-        if (type_ != rhs.getType()) { throw std::exception(); }
-        DFVariable *newVar = helper_.builder_.buildStream("", Direction::NONE, helper_, type_);
-        helper_.storage_.addVariable(newVar);
-        helper_.addNode(newVar, OpType::MUL, NodeData{});
-        helper_.addChannel(this, newVar, 0, false);
-        helper_.addChannel(&rhs, newVar, 1, false);
-        return *newVar;
-    }
-
-    bool DFScalar::isScalar() {
-        return true;
-    }
+const DFType &DFScalar::getType() {
+  return type;
 }
+
+DFVariable &DFScalar::operator+(DFVariable &rhs) {
+  if (type != rhs.getType()) { throw std::exception(); }
+  DFVariable *newVar = helper.builder.buildStream("", Direction::NONE, helper,
+                                                  type);
+  helper.storage.addVariable(newVar);
+  helper.addNode(newVar, OpType::ADD, NodeData{});
+  helper.addChannel(this, newVar, 0, false);
+  helper.addChannel(&rhs, newVar, 1, false);
+  return *newVar;
+}
+
+DFVariable &DFScalar::operator*(DFVariable &rhs) {
+  if (type != rhs.getType()) { throw std::exception(); }
+  DFVariable *newVar = helper.builder.buildStream("", Direction::NONE, helper,
+                                                  type);
+  helper.storage.addVariable(newVar);
+  helper.addNode(newVar, OpType::MUL, NodeData{});
+  helper.addChannel(this, newVar, 0, false);
+  helper.addChannel(&rhs, newVar, 1, false);
+  return *newVar;
+}
+
+bool DFScalar::isScalar() {
+  return true;
+}
+
+} // namespace dfcxx

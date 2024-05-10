@@ -5,22 +5,28 @@
 
 namespace dfcxx {
 
-    class VarBuilder;
+class VarBuilder;
 
-    class DFScalar : DFVariable {
-        friend VarBuilder;
-    private:
-        const DFType &type_;
+class DFScalar : DFVariable {
+  friend VarBuilder;
+private:
+  const DFType &type;
 
-        DFScalar(const std::string &name, Direction direction, GraphHelper &helper, const DFType &type);
-    public:
-        ~DFScalar() override = default;
-        const DFType &getType() override;
-        DFVariable &operator+ (DFVariable &rhs) override;
-        DFVariable &operator* (DFVariable &rhs) override;
+  DFScalar(const std::string &name, Direction direction, GraphHelper &helper,
+           const DFType &type);
 
-        bool isScalar() override;
-    };
-}
+public:
+  ~DFScalar() override = default;
+
+  const DFType &getType() override;
+
+  DFVariable &operator+(DFVariable &rhs) override;
+
+  DFVariable &operator*(DFVariable &rhs) override;
+
+  bool isScalar() override;
+};
+
+} // namespace dfcxx
 
 #endif // DFCXX_SCALAR_H

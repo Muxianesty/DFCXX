@@ -2,26 +2,27 @@
 #define DFCXX_OFFSET_H
 
 #include "dfcxx/graph.h"
-#include "dfcxx/varbuilders/builder.h"
 #include "dfcxx/kernstorage.h"
+#include "dfcxx/varbuilders/builder.h"
 
 namespace dfcxx {
 
-    class Kernel;
+class Kernel;
 
-    class Offset {
-        friend Kernel;
-    private:
-        Graph &graph_;
-        GraphHelper helper_;
-        VarBuilder &builder_;
-        KernStorage &storage_;
+class Offset {
+  friend Kernel;
+private:
+  Graph &graph;
+  GraphHelper helper;
+  VarBuilder &builder;
+  KernStorage &storage;
 
-        Offset(Graph &graph, VarBuilder &builder, KernStorage &storage);
+  Offset(Graph &graph, VarBuilder &builder, KernStorage &storage);
 
-    public:
-        DFVariable &operator()(DFVariable &stream, int64_t offset);
-    };
-}
+public:
+  DFVariable &operator()(DFVariable &stream, int64_t offset);
+};
+
+} // namespace dfcxx
 
 #endif // DFCXX_OFFSET_H

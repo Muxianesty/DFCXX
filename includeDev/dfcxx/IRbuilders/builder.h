@@ -1,38 +1,44 @@
 #ifndef DFCXX_IR_BUILDER_H
 #define DFCXX_IR_BUILDER_H
 
-#include "dfcxx/typedefs.h"
-#include "dfcxx/kernel.h"
-#include "dfcxx/IRbuilders/converter.h"
 #include "dfcir/DFCIROperations.h"
-#include "mlir/IR/BuiltinOps.h"
+#include "dfcxx/IRbuilders/converter.h"
+#include "dfcxx/kernel.h"
+#include "dfcxx/typedefs.h"
 #include "mlir/IR/Builders.h"
+#include "mlir/IR/BuiltinOps.h"
 
 #include <stack>
 
 namespace dfcxx {
-    class DFCIRBuilder {
-    private:
-        mlir::MLIRContext ctx_;
-        const DFLatencyConfig &config_;
-        mlir::OpBuilder builder_;
-        std::unordered_map<Node, mlir::Value> map_;
-        mlir::OwningOpRef<mlir::ModuleOp> module_;
-        DFCIRTypeConverter conv_;
 
-        std::unordered_map<Node, llvm::SmallVector<mlir::Value>> mux_map_;
+class DFCIRBuilder {
+private:
+  mlir::MLIRContext ctx;
+  const DFLatencyConfig &config;
+  mlir::OpBuilder builder;
+  std::unordered_map<Node, mlir::Value> map;
+  mlir::OwningOpRef<mlir::ModuleOp> module;
+  DFCIRTypeConverter conv;
 
-        void buildKernelBody(Graph *graph, mlir::OpBuilder &builder);
-        mlir::dfcir::KernelOp buildKernel(Kernel *kern, mlir::OpBuilder &builder);
-        mlir::ModuleOp buildModule(Kernel *kern, mlir::OpBuilder &builder);
+  std::unordered_map<Node, llvm::SmallVector<mlir::Value>> muxMap;
 
-        std::stack<Node> topSortNodes(Graph *graph);
-        void translate(Node node, Graph *graph, mlir::OpBuilder &builder);
+  void buildKernelBody(Graph *graph, mlir::OpBuilder &builder);
 
-    public:
-        explicit DFCIRBuilder(const DFLatencyConfig &config);
-        mlir::ModuleOp buildModule(Kernel *kern);
-    };
-}
+  mlir::dfcir::KernelOp buildKernel(Kernel *kern, mlir::OpBuilder &builder);
+
+  mlir::ModuleOp buildModule(Kernel *kern, mlir::OpBuilder &builder);
+
+  std::stack<Node> topSortNodes(Graph *graph);
+
+  void translate(Node node, Graph *graph, mlir::OpBuilder &builder);
+
+public:
+  explicit DFCIRBuilder(const DFLatencyConfig &config);
+
+  mlir::ModuleOp buildModule(Kernel *kern);
+};
+
+} // namespace dfcxx
 
 #endif // DFCXX_IR_BUILDER_H

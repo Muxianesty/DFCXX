@@ -5,22 +5,28 @@
 
 namespace dfcxx {
 
-    class VarBuilder;
+class VarBuilder;
 
-    class DFStream : DFVariable {
-        friend VarBuilder;
-    private:
-        const DFType &type_;
+class DFStream : DFVariable {
+  friend VarBuilder;
+private:
+  const DFType &type;
 
-        DFStream(const std::string &name, Direction direction, GraphHelper &helper, const DFType &type);
-    public:
-        ~DFStream() override = default;
-        const DFType &getType() override;
-        DFVariable &operator+ (DFVariable &rhs) override;
-        DFVariable &operator* (DFVariable &rhs) override;
+  DFStream(const std::string &name, Direction direction, GraphHelper &helper,
+           const DFType &type);
 
-        bool isStream() override;
-    };
-}
+public:
+  ~DFStream() override = default;
+
+  const DFType &getType() override;
+
+  DFVariable &operator+(DFVariable &rhs) override;
+
+  DFVariable &operator*(DFVariable &rhs) override;
+
+  bool isStream() override;
+};
+
+} // namespace dfcxx
 
 #endif // DFCXX_STREAM_H

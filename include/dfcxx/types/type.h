@@ -3,19 +3,23 @@
 
 #include <cstdint>
 
-
 namespace dfcxx {
-    class DFType {
-    public:
-        virtual uint16_t getTotalBits() const = 0;
-        virtual ~DFType() = default;
 
-        virtual bool operator== (const DFType &rhs) const = 0;
-        bool operator!= (const DFType &rhs) const;
+class DFType {
+public:
+  virtual uint16_t getTotalBits() const = 0;
 
-        virtual bool isFixed() const;
-        virtual bool isFloat() const;
-    };
-}
+  virtual ~DFType() = default;
+
+  virtual bool operator==(const DFType &rhs) const = 0;
+
+  bool operator!=(const DFType &rhs) const;
+
+  virtual bool isFixed() const;
+
+  virtual bool isFloat() const;
+};
+
+} // namespace dfcxx
 
 #endif // DFCXX_TYPE_H

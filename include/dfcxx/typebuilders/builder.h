@@ -4,11 +4,14 @@
 #include "dfcxx/types/types.h"
 
 namespace dfcxx {
-    class TypeBuilder {
-    public:
-        DFType *buildFixed(SignMode mode, uint8_t int_bits, uint8_t frac_bits);
-        DFType *buildFloat(uint8_t exp_bits, uint8_t frac_bits);
-    };
-}
+
+class TypeBuilder {
+public:
+  DFType *buildFixed(SignMode mode, uint8_t intBits, uint8_t fracBits);
+
+  DFType *buildFloat(uint8_t expBits, uint8_t fracBits);
+};
+
+} // namespace dfcxx
 
 #endif // DFCXX_TYPE_BUILDER_H

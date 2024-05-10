@@ -5,37 +5,46 @@
 
 namespace dfcxx {
 
-    enum SignMode {
-        UNSIGNED = 0,
-        SIGNED
-    };
+enum SignMode {
+  UNSIGNED = 0,
+  SIGNED
+};
 
-    class TypeBuilder;
+class TypeBuilder;
 
-    class FixedType : DFType {
-        friend TypeBuilder;
-    private:
-        SignMode mode_;
-        uint8_t int_bits_;
-        uint8_t frac_bits_;
+class FixedType : DFType {
+  friend TypeBuilder;
+private:
+  SignMode mode;
+  uint8_t intBits;
+  uint8_t fracBits;
 
-        FixedType(SignMode mode, uint8_t int_bits, uint8_t frac_bits);
-    public:
-        SignMode getSign() const;
-        uint8_t getIntBits() const;
-        uint8_t getFracBits() const;
-        uint16_t getTotalBits() const override;
-        ~FixedType() override = default;
+  FixedType(SignMode mode, uint8_t intBits, uint8_t fracBits);
 
-        bool operator== (const DFType &rhs) const override;
+public:
+  SignMode getSign() const;
 
-        bool isFixed() const override;
+  uint8_t getIntBits() const;
 
-        bool isInt() const;
-        bool isSigned() const;
-        bool isUnsigned() const;
-        bool isBool() const;
-    };
-}
+  uint8_t getFracBits() const;
+
+  uint16_t getTotalBits() const override;
+
+  ~FixedType() override = default;
+
+  bool operator==(const DFType &rhs) const override;
+
+  bool isFixed() const override;
+
+  bool isInt() const;
+
+  bool isSigned() const;
+
+  bool isUnsigned() const;
+
+  bool isBool() const;
+};
+
+} // namespace dfcxx
 
 #endif // DFCXX_FIXED_H
