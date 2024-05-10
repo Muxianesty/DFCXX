@@ -68,3 +68,19 @@ cd build
 cmake .. -G Ninja -DCIRCT_BIN_HOME="~/firtool-1.72.0" -DDFCIR_BUILD_DIR="<DFCXX_DIR>/DFCIR/build"
 ```
 After this, use `cmake --build .` to build DFCxx.
+
+## Usage of DFCxx
+Currently DFCxx project is concentrated in a single static library - a CMake target, addressed by its alias `DFCXX::DFCXX`.
+Using CMake `find_package(REQUIRED CONFIG HINTS)`-functionality, this library can be incorporated in other projects (the **full path** after `HINTS` needs to specify the build-directory for DFCxx).
+
+The following code describes a simple `CMakeLists.txt`-file of a project, using DFCxx:
+```cmake
+cmake_minimum_required(VERSION 3.16 FATAL_ERROR)
+project(TESTPROJECT C CXX)
+set(CMAKE_CXX_STANDARD 17)
+
+find_package(DFCXX REQUIRED CONFIG HINTS "~/DFCXX/build")
+
+add_executable(TEST test.cpp)
+target_link_libraries(TEST DFCXX::DFCXX)
+```
