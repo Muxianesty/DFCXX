@@ -13,4 +13,6 @@ add_subdirectory(include)
 add_subdirectory(includeDev)
 add_subdirectory(lib)
 
+add_subdirectory(examples)
+
 add_subdirectory(cmake)
