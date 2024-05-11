@@ -84,3 +84,7 @@ find_package(DFCXX REQUIRED CONFIG HINTS "~/DFCXX/build")
 add_executable(TEST test.cpp)
 target_link_libraries(TEST DFCXX::DFCXX)
 ```
+
+Along with the project, a number of usage examples is provided: they can be found in the `examples`-directory, and within each
+example's directory its corresponding kernel definition can be found (`*.h`-file) with subdirectories code for different scheduling configurations
+(`main.cpp`-files).
