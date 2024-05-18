@@ -27,9 +27,11 @@ protected:
   Constant constant;
   Control control;
 
-  DFType &dfUInt(uint8_t bytes);
+  DFType &dfUInt(uint8_t bits);
 
-  DFType &dfInt(uint8_t bytes);
+  DFType &dfInt(uint8_t bits);
+
+  DFType &dfFloat(uint8_t expBits, uint8_t fracBits);
 
   DFType &dfBool();
 

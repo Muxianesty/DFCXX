@@ -53,7 +53,7 @@ mlir::ModuleOp DFCIRBuilder::buildModule(dfcxx::Kernel *kern) {
   module = buildModule(kern, builder);
 
   // !!!!!!!!!!DEBUG!!!!!!!!!!
-  //module_->dump();
+  //module->dump();
   return module.get();
 }
 

@@ -12,14 +12,20 @@ Kernel::Kernel() : storage(), typeBuilder(), varBuilder(),
                    constant(graph, varBuilder, storage),
                    control(graph, varBuilder, storage) {}
 
-DFType &Kernel::dfUInt(uint8_t bytes) {
-  DFType *type = typeBuilder.buildFixed(SignMode::UNSIGNED, bytes, 0);
+DFType &Kernel::dfUInt(uint8_t bits) {
+  DFType *type = typeBuilder.buildFixed(SignMode::UNSIGNED, bits, 0);
   storage.addType(type);
   return *type;
 }
 
-DFType &Kernel::dfInt(uint8_t bytes) {
-  DFType *type = typeBuilder.buildFixed(SignMode::SIGNED, bytes, 0);
+DFType &Kernel::dfInt(uint8_t bits) {
+  DFType *type = typeBuilder.buildFixed(SignMode::SIGNED, bits, 0);
+  storage.addType(type);
+  return *type;
+}
+
+DFType &Kernel::dfFloat(uint8_t expBits, uint8_t fracBits) {
+  DFType *type = typeBuilder.buildFloat(expBits, fracBits);
   storage.addType(type);
   return *type;
 }
