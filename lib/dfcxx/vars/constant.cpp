@@ -34,9 +34,9 @@ DFVariable &DFConstant::operator+(DFVariable &rhs) {
         val.double_ = value.double_ + casted.value.double_;
         break;
     }
-    newVar = helper.builder.buildConstant(helper, type, kind, val);
+    newVar = helper.varBuilder.buildConstant(helper, type, kind, val);
   } else {
-    newVar = helper.builder.buildStream("", Direction::NONE, helper, type);
+    newVar = helper.varBuilder.buildStream("", Direction::NONE, helper, type);
   }
   helper.storage.addVariable(newVar);
   helper.addNode(newVar, OpType::ADD, NodeData{});
@@ -62,9 +62,9 @@ DFVariable &DFConstant::operator-(DFVariable &rhs) {
         val.double_ = value.double_ - casted.value.double_;
         break;
     }
-    newVar = helper.builder.buildConstant(helper, type, kind, val);
+    newVar = helper.varBuilder.buildConstant(helper, type, kind, val);
   } else {
-    newVar = helper.builder.buildStream("", Direction::NONE, helper, type);
+    newVar = helper.varBuilder.buildStream("", Direction::NONE, helper, type);
   }
   helper.storage.addVariable(newVar);
   helper.addNode(newVar, OpType::SUB, NodeData{});
@@ -90,9 +90,9 @@ DFVariable &DFConstant::operator*(DFVariable &rhs) {
         val.double_ = value.double_ * casted.value.double_;
         break;
     }
-    newVar = helper.builder.buildConstant(helper, type, kind, val);
+    newVar = helper.varBuilder.buildConstant(helper, type, kind, val);
   } else {
-    newVar = helper.builder.buildStream("", Direction::NONE, helper, type);
+    newVar = helper.varBuilder.buildStream("", Direction::NONE, helper, type);
   }
   helper.storage.addVariable(newVar);
   helper.addNode(newVar, OpType::MUL, NodeData{});
@@ -118,9 +118,9 @@ DFVariable &DFConstant::operator/(DFVariable &rhs) {
         val.double_ = value.double_ / casted.value.double_;
         break;
     }
-    newVar = helper.builder.buildConstant(helper, type, kind, val);
+    newVar = helper.varBuilder.buildConstant(helper, type, kind, val);
   } else {
-    newVar = helper.builder.buildStream("", Direction::NONE, helper, type);
+    newVar = helper.varBuilder.buildStream("", Direction::NONE, helper, type);
   }
   helper.storage.addVariable(newVar);
   helper.addNode(newVar, OpType::DIV, NodeData{});
@@ -146,9 +146,9 @@ DFVariable &DFConstant::operator&(DFVariable &rhs) {
         // TODO: FIX.
         break;
     }
-    newVar = helper.builder.buildConstant(helper, type, kind, val);
+    newVar = helper.varBuilder.buildConstant(helper, type, kind, val);
   } else {
-    newVar = helper.builder.buildStream("", Direction::NONE, helper, type);
+    newVar = helper.varBuilder.buildStream("", Direction::NONE, helper, type);
   }
   helper.storage.addVariable(newVar);
   helper.addNode(newVar, OpType::AND, NodeData{});
@@ -174,9 +174,9 @@ DFVariable &DFConstant::operator|(DFVariable &rhs) {
         // TODO: FIX.
         break;
     }
-    newVar = helper.builder.buildConstant(helper, type, kind, val);
+    newVar = helper.varBuilder.buildConstant(helper, type, kind, val);
   } else {
-    newVar = helper.builder.buildStream("", Direction::NONE, helper, type);
+    newVar = helper.varBuilder.buildStream("", Direction::NONE, helper, type);
   }
   helper.storage.addVariable(newVar);
   helper.addNode(newVar, OpType::OR, NodeData{});
@@ -202,9 +202,9 @@ DFVariable &DFConstant::operator^(DFVariable &rhs) {
         // TODO: FIX.
         break;
     }
-    newVar = helper.builder.buildConstant(helper, type, kind, val);
+    newVar = helper.varBuilder.buildConstant(helper, type, kind, val);
   } else {
-    newVar = helper.builder.buildStream("", Direction::NONE, helper, type);
+    newVar = helper.varBuilder.buildStream("", Direction::NONE, helper, type);
   }
   helper.storage.addVariable(newVar);
   helper.addNode(newVar, OpType::XOR, NodeData{});
@@ -227,7 +227,7 @@ DFVariable &DFConstant::operator!() {
       // TODO: FIX.
       break;
   }
-  newVar = helper.builder.buildConstant(helper, type, kind, val);
+  newVar = helper.varBuilder.buildConstant(helper, type, kind, val);
   helper.storage.addVariable(newVar);
   helper.addNode(newVar, OpType::NOT, NodeData{});
   helper.addChannel(this, newVar, 0, false);
@@ -248,10 +248,208 @@ DFVariable &DFConstant::operator-() {
       val.double_ = -value.double_;
       break;
   }
-  newVar = helper.builder.buildConstant(helper, type, kind, val);
+  newVar = helper.varBuilder.buildConstant(helper, type, kind, val);
   helper.storage.addVariable(newVar);
   helper.addNode(newVar, OpType::NEG, NodeData{});
   helper.addChannel(this, newVar, 0, false);
+  return *newVar;
+}
+
+DFVariable &DFConstant::operator<(DFVariable &rhs) {
+  if (type != rhs.getType()) { throw std::exception(); }
+  DFVariable *newVar;
+  DFType *newType = helper.typeBuilder.buildBool();
+  helper.storage.addType(newType);
+  if (rhs.isConstant()) {
+    ConstantValue val{};
+    DFConstant &casted = (DFConstant &) (rhs);
+    switch (kind) {
+      case INT:
+        val.uint_ = value.int_ < casted.value.int_;
+        break;
+      case UINT:
+        val.uint_ = value.uint_ < casted.value.uint_;
+        break;
+      case FLOAT:
+        val.uint_ = value.double_ < casted.value.double_;
+        break;
+    }
+    newVar = helper.varBuilder.buildConstant(helper,
+                                             *newType,
+                                             kind, val);
+  } else {
+    newVar = helper.varBuilder.buildStream("", Direction::NONE, helper,
+                                           *newType);
+  }
+  helper.storage.addVariable(newVar);
+  helper.addNode(newVar, OpType::LESS, NodeData{});
+  helper.addChannel(this, newVar, 0, false);
+  helper.addChannel(&rhs, newVar, 1, false);
+  return *newVar;
+}
+
+DFVariable &DFConstant::operator<=(DFVariable &rhs) {
+  if (type != rhs.getType()) { throw std::exception(); }
+  DFVariable *newVar;
+  DFType *newType = helper.typeBuilder.buildBool();
+  helper.storage.addType(newType);
+  if (rhs.isConstant()) {
+    ConstantValue val{};
+    DFConstant &casted = (DFConstant &) (rhs);
+    switch (kind) {
+      case INT:
+        val.uint_ = value.int_ <= casted.value.int_;
+        break;
+      case UINT:
+        val.uint_ = value.uint_ <= casted.value.uint_;
+        break;
+      case FLOAT:
+        val.uint_ = value.double_ <= casted.value.double_;
+        break;
+    }
+    newVar = helper.varBuilder.buildConstant(helper,
+                                             *newType,
+                                             kind, val);
+  } else {
+    newVar = helper.varBuilder.buildStream("", Direction::NONE, helper,
+                                           *newType);
+  }
+  helper.storage.addVariable(newVar);
+  helper.addNode(newVar, OpType::LESS_EQ, NodeData{});
+  helper.addChannel(this, newVar, 0, false);
+  helper.addChannel(&rhs, newVar, 1, false);
+  return *newVar;
+}
+
+DFVariable &DFConstant::operator>(DFVariable &rhs) {
+  if (type != rhs.getType()) { throw std::exception(); }
+  DFVariable *newVar;
+  DFType *newType = helper.typeBuilder.buildBool();
+  helper.storage.addType(newType);
+  if (rhs.isConstant()) {
+    ConstantValue val{};
+    DFConstant &casted = (DFConstant &) (rhs);
+    switch (kind) {
+      case INT:
+        val.uint_ = value.int_ > casted.value.int_;
+        break;
+      case UINT:
+        val.uint_ = value.uint_ > casted.value.uint_;
+        break;
+      case FLOAT:
+        val.uint_ = value.double_ > casted.value.double_;
+        break;
+    }
+    newVar = helper.varBuilder.buildConstant(helper,
+                                             *newType,
+                                             kind, val);
+  } else {
+    newVar = helper.varBuilder.buildStream("", Direction::NONE, helper,
+                                           *newType);
+  }
+  helper.storage.addVariable(newVar);
+  helper.addNode(newVar, OpType::MORE, NodeData{});
+  helper.addChannel(this, newVar, 0, false);
+  helper.addChannel(&rhs, newVar, 1, false);
+  return *newVar;
+}
+
+DFVariable &DFConstant::operator>=(DFVariable &rhs) {
+  if (type != rhs.getType()) { throw std::exception(); }
+  DFVariable *newVar;
+  DFType *newType = helper.typeBuilder.buildBool();
+  helper.storage.addType(newType);
+  if (rhs.isConstant()) {
+    ConstantValue val{};
+    DFConstant &casted = (DFConstant &) (rhs);
+    switch (kind) {
+      case INT:
+        val.uint_ = value.int_ >= casted.value.int_;
+        break;
+      case UINT:
+        val.uint_ = value.uint_ >= casted.value.uint_;
+        break;
+      case FLOAT:
+        val.uint_ = value.double_ >= casted.value.double_;
+        break;
+    }
+    newVar = helper.varBuilder.buildConstant(helper,
+                                             *newType,
+                                             kind, val);
+  } else {
+    newVar = helper.varBuilder.buildStream("", Direction::NONE, helper,
+                                           *newType);
+  }
+  helper.storage.addVariable(newVar);
+  helper.addNode(newVar, OpType::MORE_EQ, NodeData{});
+  helper.addChannel(this, newVar, 0, false);
+  helper.addChannel(&rhs, newVar, 1, false);
+  return *newVar;
+}
+
+DFVariable &DFConstant::operator==(DFVariable &rhs) {
+  if (type != rhs.getType()) { throw std::exception(); }
+  DFVariable *newVar;
+  DFType *newType = helper.typeBuilder.buildBool();
+  helper.storage.addType(newType);
+  if (rhs.isConstant()) {
+    ConstantValue val{};
+    DFConstant &casted = (DFConstant &) (rhs);
+    switch (kind) {
+      case INT:
+        val.uint_ = value.int_ == casted.value.int_;
+        break;
+      case UINT:
+        val.uint_ = value.uint_ == casted.value.uint_;
+        break;
+      case FLOAT:
+        val.uint_ = value.double_ == casted.value.double_;
+        break;
+    }
+    newVar = helper.varBuilder.buildConstant(helper,
+                                             *newType,
+                                             kind, val);
+  } else {
+    newVar = helper.varBuilder.buildStream("", Direction::NONE, helper,
+                                           *newType);
+  }
+  helper.storage.addVariable(newVar);
+  helper.addNode(newVar, OpType::EQ, NodeData{});
+  helper.addChannel(this, newVar, 0, false);
+  helper.addChannel(&rhs, newVar, 1, false);
+  return *newVar;
+}
+
+DFVariable &DFConstant::operator!=(DFVariable &rhs) {
+  if (type != rhs.getType()) { throw std::exception(); }
+  DFVariable *newVar;
+  DFType *newType = helper.typeBuilder.buildBool();
+  helper.storage.addType(newType);
+  if (rhs.isConstant()) {
+    ConstantValue val{};
+    DFConstant &casted = (DFConstant &) (rhs);
+    switch (kind) {
+      case INT:
+        val.uint_ = value.int_ != casted.value.int_;
+        break;
+      case UINT:
+        val.uint_ = value.uint_ != casted.value.uint_;
+        break;
+      case FLOAT:
+        val.uint_ = value.double_ != casted.value.double_;
+        break;
+    }
+    newVar = helper.varBuilder.buildConstant(helper,
+                                             *newType,
+                                             kind, val);
+  } else {
+    newVar = helper.varBuilder.buildStream("", Direction::NONE, helper,
+                                           *newType);
+  }
+  helper.storage.addVariable(newVar);
+  helper.addNode(newVar, OpType::NEQ, NodeData{});
+  helper.addChannel(this, newVar, 0, false);
+  helper.addChannel(&rhs, newVar, 1, false);
   return *newVar;
 }
 

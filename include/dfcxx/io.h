@@ -3,6 +3,7 @@
 
 #include "dfcxx/graph.h"
 #include "dfcxx/kernstorage.h"
+#include "dfcxx/typebuilders/builder.h"
 #include "dfcxx/varbuilders/builder.h"
 
 namespace dfcxx {
@@ -14,10 +15,10 @@ class IO {
 private:
   Graph &graph;
   GraphHelper helper;
-  VarBuilder &builder;
+  VarBuilder &varBuilder;
   KernStorage &storage;
 
-  IO(Graph &graph, VarBuilder &builder, KernStorage &storage);
+  IO(Graph &graph, TypeBuilder &typeBuilder, VarBuilder &builder, KernStorage &storage);
 
 public:
   DFVariable &input(const std::string &name, const DFType &type);

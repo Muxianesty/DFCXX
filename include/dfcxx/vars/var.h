@@ -53,17 +53,17 @@ public:
 
   virtual DFVariable &operator-() = 0;
 
-//  virtual DFVariable &operator<(DFVariable &rhs) = 0;
-//
-//  virtual DFVariable &operator<=(DFVariable &rhs) = 0;
-//
-//  virtual DFVariable &operator>(DFVariable &rhs) = 0;
-//
-//  virtual DFVariable &operator>=(DFVariable &rhs) = 0;
-//
-//  virtual DFVariable &operator==(DFVariable &rhs) = 0;
-//
-//  virtual DFVariable &operator!=(DFVariable &rhs) = 0;
+  virtual DFVariable &operator<(DFVariable &rhs) = 0;
+
+  virtual DFVariable &operator<=(DFVariable &rhs) = 0;
+
+  virtual DFVariable &operator>(DFVariable &rhs) = 0;
+
+  virtual DFVariable &operator>=(DFVariable &rhs) = 0;
+
+  virtual DFVariable &operator==(DFVariable &rhs) = 0;
+
+  virtual DFVariable &operator!=(DFVariable &rhs) = 0;
 
   virtual bool isStream();
 

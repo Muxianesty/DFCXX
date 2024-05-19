@@ -3,6 +3,7 @@
 
 #include "dfcxx/channel.h"
 #include "dfcxx/node.h"
+#include "dfcxx/typebuilders/builder.h"
 #include "dfcxx/vars/var.h"
 
 #include <unordered_map>
@@ -62,10 +63,12 @@ class GraphHelper {
 private:
   Graph &graph;
 
-  GraphHelper(Graph &graph, VarBuilder &builder, KernStorage &storage);
+  GraphHelper(Graph &graph, TypeBuilder &typeBuilder, VarBuilder &varBuilder,
+              KernStorage &storage);
 
 public:
-  VarBuilder &builder;
+  TypeBuilder &typeBuilder;
+  VarBuilder &varBuilder;
   KernStorage &storage;
 
   void addNode(DFVariable *var, OpType type, NodeData data);

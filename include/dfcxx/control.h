@@ -14,10 +14,11 @@ class Control {
 private:
   Graph &graph;
   GraphHelper helper;
-  VarBuilder &builder;
+  VarBuilder &varBuilder;
   KernStorage &storage;
 
-  Control(Graph &graph, VarBuilder &builder, KernStorage &storage);
+  Control(Graph &graph, TypeBuilder &typeBuilder, VarBuilder &varBuilder,
+          KernStorage &storage);
 
 public:
   DFVariable &mux(DFVariable &ctrl, DFVariable &var1, DFVariable &var2);

@@ -31,9 +31,9 @@ void Graph::addChannel(DFVariable *source, DFVariable *target, unsigned opInd,
   }
 }
 
-GraphHelper::GraphHelper(Graph &graph, VarBuilder &builder,
-                         KernStorage &storage) : graph(graph), builder(builder),
-                                                 storage(storage) {}
+GraphHelper::GraphHelper(Graph &graph, TypeBuilder &typeBuilder, VarBuilder &varBuilder,
+                         KernStorage &storage) : graph(graph), typeBuilder(typeBuilder),
+                         varBuilder(varBuilder), storage(storage) {}
 
 void GraphHelper::addNode(DFVariable *var, OpType type, NodeData data) {
   graph.addNode(var, type, data);

@@ -9,6 +9,8 @@ class TypeBuilder {
 public:
   DFType *buildFixed(SignMode mode, uint8_t intBits, uint8_t fracBits);
 
+  DFType *buildBool();
+
   DFType *buildFloat(uint8_t expBits, uint8_t fracBits);
 };
 

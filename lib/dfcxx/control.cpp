@@ -6,25 +6,25 @@ namespace dfcxx {
 using Direction = dfcxx::DFVariable::Direction;
 using ConstantValue = dfcxx::DFConstant::ConstantValue;
 
-Control::Control(Graph &graph, VarBuilder &builder, KernStorage &storage) :
-        graph(graph),
-        helper(graph, builder, storage),
-        builder(builder),
-        storage(storage) {}
+Control::Control(Graph &graph, TypeBuilder &typeBuilder, VarBuilder &varBuilder,
+                 KernStorage &storage) : graph(graph), helper(graph, typeBuilder,
+                                                              varBuilder,
+                                                              storage),
+                 varBuilder(varBuilder), storage(storage) {}
 
 DFVariable &Control::mux(DFVariable &ctrl, DFVariable &var1, DFVariable &var2) {
   if (var1.getType() != var2.getType()) { throw std::exception(); }
   DFVariable *var = nullptr;
   if (var1.isConstant()) {
-    var = helper.builder.buildConstant(helper, var1.getType(),
-                                       ((DFConstant &) (var1)).getKind(),
-                                       ConstantValue{});
+    var = helper.varBuilder.buildConstant(helper, var1.getType(),
+                                          ((DFConstant &) (var1)).getKind(),
+                                          ConstantValue{});
   } else if (var1.isScalar()) {
-    var = helper.builder.buildScalar("", Direction::NONE, helper,
-                                     var1.getType());
+    var = helper.varBuilder.buildScalar("", Direction::NONE, helper,
+                                        var1.getType());
   } else if (var1.isStream()) {
-    var = helper.builder.buildStream("", Direction::NONE, helper,
-                                     var1.getType());
+    var = helper.varBuilder.buildStream("", Direction::NONE, helper,
+                                        var1.getType());
   }
 
   storage.addVariable(var);

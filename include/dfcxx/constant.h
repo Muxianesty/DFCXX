@@ -14,10 +14,11 @@ class Constant {
 private:
   Graph &graph;
   GraphHelper helper;
-  VarBuilder &builder;
+  VarBuilder &varBuilder;
   KernStorage &storage;
 
-  Constant(Graph &graph, VarBuilder &builder, KernStorage &storage);
+  Constant(Graph &graph, TypeBuilder &typeBuilder, VarBuilder &varBuilder,
+           KernStorage &storage);
 
 public:
   DFVariable &var(const DFType &type, int64_t value);

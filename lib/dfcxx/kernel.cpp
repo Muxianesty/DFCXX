@@ -7,10 +7,10 @@
 namespace dfcxx {
 
 Kernel::Kernel() : storage(), typeBuilder(), varBuilder(),
-                   graph(), io(graph, varBuilder, storage),
-                   offset(graph, varBuilder, storage),
-                   constant(graph, varBuilder, storage),
-                   control(graph, varBuilder, storage) {}
+                   graph(), io(graph, typeBuilder, varBuilder, storage),
+                   offset(graph, typeBuilder, varBuilder, storage),
+                   constant(graph, typeBuilder, varBuilder, storage),
+                   control(graph, typeBuilder, varBuilder, storage) {}
 
 DFType &Kernel::dfUInt(uint8_t bits) {
   DFType *type = typeBuilder.buildFixed(SignMode::UNSIGNED, bits, 0);
@@ -31,7 +31,7 @@ DFType &Kernel::dfFloat(uint8_t expBits, uint8_t fracBits) {
 }
 
 DFType &Kernel::dfBool() {
-  DFType *type = typeBuilder.buildFixed(SignMode::UNSIGNED, 1, 0);
+  DFType *type = typeBuilder.buildBool();
   storage.addType(type);
   return *type;
 }

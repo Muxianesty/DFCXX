@@ -14,10 +14,10 @@ class Offset {
 private:
   Graph &graph;
   GraphHelper helper;
-  VarBuilder &builder;
+  VarBuilder &varBuilder;
   KernStorage &storage;
 
-  Offset(Graph &graph, VarBuilder &builder, KernStorage &storage);
+  Offset(Graph &graph, TypeBuilder &typeBuilder, VarBuilder &builder, KernStorage &storage);
 
 public:
   DFVariable &operator()(DFVariable &stream, int64_t offset);
