@@ -177,9 +177,24 @@ void DFCIRBuilder::translate(dfcxx::Node node, dfcxx::Graph *graph,
       map[node] = newOp.getResult();
       break;
     }
+    case XOR: {
+      Node first = ins[0].source;
+      Node second = ins[1].source;
+      auto newOp = builder.create<mlir::dfcir::XorOp>(loc, conv[node.var],
+                                                     map[first], map[second]);
+      map[node] = newOp.getResult();
+      break;
+    }
     case NOT: {
       Node first = ins[0].source;
       auto newOp = builder.create<mlir::dfcir::NotOp>(loc, conv[node.var],
+                                                      map[first]);
+      map[node] = newOp.getResult();
+      break;
+    }
+    case NEG: {
+      Node first = ins[0].source;
+      auto newOp = builder.create<mlir::dfcir::NegOp>(loc, conv[node.var],
                                                       map[first]);
       map[node] = newOp.getResult();
       break;

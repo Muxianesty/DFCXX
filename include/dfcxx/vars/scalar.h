@@ -32,7 +32,11 @@ public:
 
   DFVariable &operator|(DFVariable &rhs) override;
 
+  DFVariable &operator^(DFVariable &rhs) override;
+
   DFVariable &operator!() override;
+
+  DFVariable &operator-() override;
 
 //  DFVariable &operator<(DFVariable &rhs) override;
 //

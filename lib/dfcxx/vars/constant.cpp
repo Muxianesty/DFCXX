@@ -185,6 +185,34 @@ DFVariable &DFConstant::operator|(DFVariable &rhs) {
   return *newVar;
 }
 
+DFVariable &DFConstant::operator^(DFVariable &rhs) {
+  if (type != rhs.getType()) { throw std::exception(); }
+  DFVariable *newVar;
+  if (rhs.isConstant()) {
+    ConstantValue val{};
+    DFConstant &casted = (DFConstant &) (rhs);
+    switch (kind) {
+      case INT:
+        val.int_ = value.int_ | casted.value.int_;
+        break;
+      case UINT:
+        val.uint_ = value.uint_ | casted.value.uint_;
+        break;
+      case FLOAT:
+        // TODO: FIX.
+        break;
+    }
+    newVar = helper.builder.buildConstant(helper, type, kind, val);
+  } else {
+    newVar = helper.builder.buildStream("", Direction::NONE, helper, type);
+  }
+  helper.storage.addVariable(newVar);
+  helper.addNode(newVar, OpType::XOR, NodeData{});
+  helper.addChannel(this, newVar, 0, false);
+  helper.addChannel(&rhs, newVar, 1, false);
+  return *newVar;
+}
+
 DFVariable &DFConstant::operator!() {
   DFVariable *newVar;
   ConstantValue val{};
@@ -202,6 +230,27 @@ DFVariable &DFConstant::operator!() {
   newVar = helper.builder.buildConstant(helper, type, kind, val);
   helper.storage.addVariable(newVar);
   helper.addNode(newVar, OpType::NOT, NodeData{});
+  helper.addChannel(this, newVar, 0, false);
+  return *newVar;
+}
+
+DFVariable &DFConstant::operator-() {
+  DFVariable *newVar;
+  ConstantValue val{};
+  switch (kind) {
+    case INT:
+      val.int_ = -value.int_;
+      break;
+    case UINT:
+      val.uint_ = -value.uint_;
+      break;
+    case FLOAT:
+      val.double_ = -value.double_;
+      break;
+  }
+  newVar = helper.builder.buildConstant(helper, type, kind, val);
+  helper.storage.addVariable(newVar);
+  helper.addNode(newVar, OpType::NEG, NodeData{});
   helper.addChannel(this, newVar, 0, false);
   return *newVar;
 }
