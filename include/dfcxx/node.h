@@ -13,8 +13,17 @@ enum OpType : uint8_t {
   MUX,
   ADD,
   SUB,
+  MUL,
   DIV,
-  MUL
+  AND,
+  OR,
+  NOT,
+  LESS,
+  LESS_EQ,
+  MORE,
+  MORE_EQ,
+  EQ,
+  NEQ
 };
 
 union NodeData {
