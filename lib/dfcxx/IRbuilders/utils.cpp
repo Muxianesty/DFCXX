@@ -145,6 +145,14 @@ void DFCIRBuilder::translate(dfcxx::Node node, dfcxx::Graph *graph,
       map[node] = newOp.getResult();
       break;
     }
+    case MUL: {
+      Node first = ins[0].source;
+      Node second = ins[1].source;
+      auto newOp = builder.create<mlir::dfcir::MulOp>(loc, conv[node.var],
+                                                      map[first], map[second]);
+      map[node] = newOp.getResult();
+      break;
+    }
     case DIV: {
       Node first = ins[0].source;
       Node second = ins[1].source;
@@ -153,11 +161,26 @@ void DFCIRBuilder::translate(dfcxx::Node node, dfcxx::Graph *graph,
       map[node] = newOp.getResult();
       break;
     }
-    case MUL: {
+    case AND: {
       Node first = ins[0].source;
       Node second = ins[1].source;
-      auto newOp = builder.create<mlir::dfcir::MulOp>(loc, conv[node.var],
+      auto newOp = builder.create<mlir::dfcir::AndOp>(loc, conv[node.var],
                                                       map[first], map[second]);
+      map[node] = newOp.getResult();
+      break;
+    }
+    case OR: {
+      Node first = ins[0].source;
+      Node second = ins[1].source;
+      auto newOp = builder.create<mlir::dfcir::OrOp>(loc, conv[node.var],
+                                                      map[first], map[second]);
+      map[node] = newOp.getResult();
+      break;
+    }
+    case NOT: {
+      Node first = ins[0].source;
+      auto newOp = builder.create<mlir::dfcir::NotOp>(loc, conv[node.var],
+                                                      map[first]);
       map[node] = newOp.getResult();
       break;
     }

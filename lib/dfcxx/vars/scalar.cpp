@@ -25,6 +25,17 @@ DFVariable &DFScalar::operator+(DFVariable &rhs) {
   return *newVar;
 }
 
+DFVariable &DFScalar::operator-(DFVariable &rhs) {
+  if (type != rhs.getType()) { throw std::exception(); }
+  DFVariable *newVar = helper.builder.buildStream("", Direction::NONE, helper,
+                                                  type);
+  helper.storage.addVariable(newVar);
+  helper.addNode(newVar, OpType::SUB, NodeData{});
+  helper.addChannel(this, newVar, 0, false);
+  helper.addChannel(&rhs, newVar, 1, false);
+  return *newVar;
+}
+
 DFVariable &DFScalar::operator*(DFVariable &rhs) {
   if (type != rhs.getType()) { throw std::exception(); }
   DFVariable *newVar = helper.builder.buildStream("", Direction::NONE, helper,
@@ -33,6 +44,48 @@ DFVariable &DFScalar::operator*(DFVariable &rhs) {
   helper.addNode(newVar, OpType::MUL, NodeData{});
   helper.addChannel(this, newVar, 0, false);
   helper.addChannel(&rhs, newVar, 1, false);
+  return *newVar;
+}
+
+DFVariable &DFScalar::operator/(DFVariable &rhs) {
+  if (type != rhs.getType()) { throw std::exception(); }
+  DFVariable *newVar = helper.builder.buildStream("", Direction::NONE, helper,
+                                                  type);
+  helper.storage.addVariable(newVar);
+  helper.addNode(newVar, OpType::DIV, NodeData{});
+  helper.addChannel(this, newVar, 0, false);
+  helper.addChannel(&rhs, newVar, 1, false);
+  return *newVar;
+}
+
+DFVariable &DFScalar::operator&(DFVariable &rhs) {
+  if (type != rhs.getType()) { throw std::exception(); }
+  DFVariable *newVar = helper.builder.buildStream("", Direction::NONE, helper,
+                                                  type);
+  helper.storage.addVariable(newVar);
+  helper.addNode(newVar, OpType::AND, NodeData{});
+  helper.addChannel(this, newVar, 0, false);
+  helper.addChannel(&rhs, newVar, 1, false);
+  return *newVar;
+}
+
+DFVariable &DFScalar::operator|(DFVariable &rhs) {
+  if (type != rhs.getType()) { throw std::exception(); }
+  DFVariable *newVar = helper.builder.buildStream("", Direction::NONE, helper,
+                                                  type);
+  helper.storage.addVariable(newVar);
+  helper.addNode(newVar, OpType::OR, NodeData{});
+  helper.addChannel(this, newVar, 0, false);
+  helper.addChannel(&rhs, newVar, 1, false);
+  return *newVar;
+}
+
+DFVariable &DFScalar::operator!() {
+  DFVariable *newVar = helper.builder.buildStream("", Direction::NONE, helper,
+                                                  type);
+  helper.storage.addVariable(newVar);
+  helper.addNode(newVar, OpType::NOT, NodeData{});
+  helper.addChannel(this, newVar, 0, false);
   return *newVar;
 }
 
